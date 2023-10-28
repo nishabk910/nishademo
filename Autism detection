@@ -58,3 +58,167 @@ from keras.layers import Dense
 from tensorflow import keras
 from tensorflow.keras import layers
 from keras.layers import Dropout
+input_dim=x.shape[1]
+input_dim
+#defining model
+model = Sequential()
+#input layer
+model.add(Dense(20, activation = 'relu', input_shape=(20,)))
+#hidden layer
+model.add(Dense(20, activation='relu'))
+#output layer
+model.add(Dense(1, activation = 'sigmoid'))
+#compiling the model
+model.compile(optimizer='RMSprop', loss='binary_crossentropy', metrics=['accuracy'])
+y_test.shape
+hist = model.fit(x_train, y_train,epochs=30, verbose=1)
+model.summary()
+#calculating accuracy
+_, accuracy= model.evaluate(x_test,y_test)
+print('Accuracy of the model using ANN: %.2f'%(accuracy*100))
+ANN USING RMSprop OPTIMIZER(with dropouts)
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+#categorical variables
+cat = list(df.select_dtypes(include='O').keys())
+print(cat)
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x_scale,y, test_size =0.3)
+print(x_train.shape, x_test.shape, y_train.shape, y_test.shape, y_test.shape)
+#importing packages for ann
+from keras.models import Sequential
+from keras.layers import Dense
+from tensorflow import keras
+from tensorflow.keras import layers
+from keras.layers import Dropout
+#defining model
+model = Sequential()
+#input layer
+model.add(Dense(20, activation = 'relu', input_shape=(20,)))
+#hidden layer
+model.add(Dense(20, activation='relu'))
+model.add(Dropout(0.2))
+#output layer
+model.add(Dense(1, activation = 'sigmoid'))
+#compiling the model
+model.compile(optimizer='RMSprop', loss='binary_crossentropy', metrics=['accuracy'])
+hist = model.fit(x_train, y_train, epochs=30, verbose=1)
+model.summary()
+#calculating accuracy
+_, accuracy= model.evaluate(x_test,y_test)
+print('Accuracy of the model using ANN: %.2f'%(accuracy*100))
+ANN USING ADAM OPTIMIZER
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+#categorical variables
+cat = list(df.select_dtypes(include='O').keys())
+print(cat)
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x_scale,y, test_size =0.3)
+print(x_train.shape, x_test.shape, y_train.shape, y_test.shape, y_test.shape)
+#importing packages for ann
+from keras.models import Sequential
+from keras.layers import Dense
+from tensorflow import keras
+from tensorflow.keras import layers
+from keras.layers import Dropout
+#defining model
+model = Sequential()
+#input layer
+model.add(Dense(20, activation = 'relu', input_shape=(20,)))
+#hidden layer
+model.add(Dense(20, activation='relu'))
+model.add(Dropout(0.2))
+#output layer
+model.add(Dense(1, activation = 'sigmoid'))
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+hist = model.fit(x_train, y_train, epochs=30, verbose=1)
+model.summary()
+#calculating accuracy
+_, accuracy= model.evaluate(x_test,y_test)
+print('Accuracy of the model using ANN: %.2f'%(accuracy*100))
+ANN USING Adagrad OPTIMIZER
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+uniq_eths = df['ethnicity'].unique()
+for i in range(len(uniq_eths)):
+  df.ethnicity = df.ethnicity.replace(uniq_eths[i], i)
+
+uniq_genders = df['gender'].unique()
+for i in range(len(uniq_genders)):
+  df.gender = df.gender.replace(uniq_genders[i], i)
+
+uniq_jundice = df['jundice'].unique()
+for i in range(len(uniq_jundice)):
+  df.jundice = df.jundice.replace(uniq_jundice[i], i)
+
+uniq_austim = df['austim'].unique()
+for i in range(len(uniq_austim)):
+  df.austim = df.austim.replace(uniq_austim[i], i)
+
+uniq_contry = df['contry_of_res'].unique()
+for i in range(len(uniq_contry)):
+  df.contry_of_res = df.contry_of_res.replace(uniq_contry[i], i)
+
+uniq_used_app = df['used_app_before'].unique()
+for i in range(len(uniq_used_app)):
+  df.used_app_before = df.used_app_before.replace(uniq_used_app[i], i)
+
+uniq_results = df['result'].unique()
+for i in range(len(uniq_results)):
+  df.result = df.result.replace(uniq_results[i], i)
+
+uniq_age_descs = df['age_desc'].unique()
+for i in range(len(uniq_age_descs)):
+  df.age_desc = df.age_desc.replace(uniq_age_descs[i], i)
+
+uniq_relations = df['relation'].unique()
+for i in range(len(uniq_relations)):
+  df.relation = df.relation.replace(uniq_relations[i], i)
+
+uniq_class_ASD = df['Class/ASD'].unique()
+for i in range(len(uniq_class_ASD)):
+  df['Class/ASD'] = df['Class/ASD'].replace(uniq_class_ASD[i], i)
+df.head()
+dataset=df.values
+x= dataset[:,0:20]
+y= dataset[:,20]
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x_scale,y, test_size =0.3)
+print(x_train.shape, x_test.shape, y_train.shape, y_test.shape, y_test.shape)
+#importing packages for ann
+from keras.models import Sequential
+from keras.layers import Dense
+from tensorflow import keras
+from tensorflow.keras import layers
+from keras.layers import Dropout
