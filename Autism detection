@@ -1,2 +1,60 @@
 from google.colab import drive
 drive.mount('/content/drive')
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+#dataframe
+df
+df.shape
+df.describe()
+df.dtypes
+df.head()
+df.tail()
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+#categorical variables
+cat = list(df.select_dtypes(include='O').keys())
+print(cat)
+for column in df.columns:
+    unique_values = df[column].unique()
+    print(f"Unique values in column {column}: {len(unique_values)}")
+from sklearn.preprocessing import LabelEncoder
+
+from sklearn.preprocessing import LabelEncoder
+
+# Assuming your DataFrame is named 'df'
+encoded_df = df.copy()  # Create a copy of the original DataFrame
+
+categorical_columns = ['gender', 'ethnicity', 'jundice', 'austim', 'contry_of_res', 'used_app_before', 'age_desc', 'relation', 'Class/ASD']
+
+for column in categorical_columns:
+    label_encoder = LabelEncoder()
+    encoded_df[column] = label_encoder.fit_transform(encoded_df[column])
+df=encoded_df
+# value_counts of the categorical columns
+for i in cat:
+    print(df[i].value_counts())
+from sklearn.preprocessing import LabelEncoder
+label_encoder = LabelEncoder()
+df['contry_of_res'] = label_encoder.fit_transform(df['contry_of_res'])
+df.head
+# independent and dependent variables
+x = df.drop('Class/ASD',axis=1)
+y = df['Class/ASD']
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x_scale,y, test_size =0.3)
+print(x_train.shape, x_test.shape, y_train.shape, y_test.shape, y_test.shape)
+ANN USING RMSprop OPTIMIZER without DROPOUTS
+#importing packages for ann
+from keras.models import Sequential
+from keras.layers import Dense
+from tensorflow import keras
+from tensorflow.keras import layers
+from keras.layers import Dropout
