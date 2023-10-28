@@ -222,3 +222,395 @@ from keras.layers import Dense
 from tensorflow import keras
 from tensorflow.keras import layers
 from keras.layers import Dropout
+#defining model
+model = Sequential()
+#input layer
+model.add(Dense(20, activation = 'relu', input_shape=(20,)))
+#hidden layer
+model.add(Dense(20, activation='relu'))
+model.add(Dropout(0.2))
+#output layer
+model.add(Dense(1, activation = 'sigmoid'))
+model.compile(optimizer='Adagrad', loss='binary_crossentropy', metrics=['accuracy'])
+hist = model.fit(x_train, y_train, epochs=30, verbose=1)
+ANN USING ADADELTA OPTIMIZER
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+#categorical variables
+cat = list(df.select_dtypes(include='O').keys())
+print(cat)
+for column in df.columns:
+    unique_values = df[column].unique()
+    print(f"Unique values in column {column}: {len(unique_values)}")
+from sklearn.preprocessing import LabelEncoder
+
+from sklearn.preprocessing import LabelEncoder
+
+# Assuming your DataFrame is named 'df'
+encoded_df = df.copy()  # Create a copy of the original DataFrame
+
+categorical_columns = ['gender', 'ethnicity', 'jundice', 'austim', 'contry_of_res', 'used_app_before', 'age_desc', 'relation', 'Class/ASD']
+
+for column in categorical_columns:
+    label_encoder = LabelEncoder()
+    encoded_df[column] = label_encoder.fit_transform(encoded_df[column])
+df=encoded_df
+# value_counts of the categorical columns
+for i in cat:
+    print(df[i].value_counts())
+dataset=df.values
+x= dataset[:,0:20]
+y= dataset[:,20]
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x_scale,y, test_size =0.3)
+print(x_train.shape, x_test.shape, y_train.shape, y_test.shape, y_test.shape)
+#importing packages for ann
+from keras.models import Sequential
+from keras.layers import Dense
+from tensorflow import keras
+from tensorflow.keras import layers
+from keras.layers import Dropout
+#defining model
+model = Sequential()
+#input layer
+model.add(Dense(20, activation = 'relu', input_shape=(20,)))
+#hidden layer
+model.add(Dense(20, activation='relu'))
+model.add(Dropout(0.2))
+#output layer
+model.add(Dense(1, activation = 'sigmoid'))
+model.compile(optimizer='Adadelta', loss='binary_crossentropy', metrics=['accuracy'])
+hist = model.fit(x_train, y_train, epochs=30, verbose=1)
+#calculating accuracy
+_, accuracy= model.evaluate(x_test,y_test)
+print('Accuracy of the model using ANN: %.2f'%(accuracy*100))
+USING SVM CLASSIFIER(ML)
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+df.head()
+df.tail()
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+
+#categorical variables
+cat = list(df.select_dtypes(include='O').keys())
+print(cat)
+
+for column in df.columns:
+    unique_values = df[column].unique()
+    print(f"Unique values in column {column}: {len(unique_values)}")
+from sklearn.preprocessing import LabelEncoder
+
+from sklearn.preprocessing import LabelEncoder
+
+# Assuming your DataFrame is named 'df'
+encoded_df = df.copy()  # Create a copy of the original DataFrame
+
+categorical_columns = ['gender', 'ethnicity', 'jundice', 'austim', 'contry_of_res', 'used_app_before', 'age_desc', 'relation', 'Class/ASD']
+
+for column in categorical_columns:
+    label_encoder = LabelEncoder()
+    encoded_df[column] = label_encoder.fit_transform(encoded_df[column])
+df=encoded_df
+# value_counts of the categorical columns
+for i in cat:
+    print(df[i].value_counts())
+dataset=df.values
+x= dataset[:,0:20]
+y= dataset[:,20]
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_val_and_test, y_train, y_val_and_test = train_test_split(x_scale,y, test_size =0.3)
+x_val , x_test, y_val, y_test = train_test_split(x_val_and_test, y_val_and_test, test_size = 0.5)
+print(x_train.shape, x_val.shape, y_train .shape, y_val.shape, y_test.shape)
+import numpy as np
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+
+# Check for NaN values in x_train
+nan_rows = np.isnan(x_train).any(axis=1)
+x_train_no_nan = x_train[~nan_rows]
+y_train_no_nan = y_train[~nan_rows]
+
+# Scale or normalize data
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train_no_nan)
+
+# Create and train the SVM classifier
+classifier = SVC(kernel='linear')
+classifier.fit(x_train_scaled, y_train_no_nan)
+y_pred = classifier.predict(x_test)
+from sklearn.metrics import confusion_matrix, classification_report, precision_score, recall_score, accuracy_score
+import sklearn.metrics as metrics
+
+print("The model used is SVM classifier")
+accuracy = metrics.accuracy_score(y_test, y_pred)
+print("\nAccuracy Of SVM Classifier For The Given Dataset : ", accuracy*100)
+print(confusion_matrix(y_test,y_pred))
+print('The classification report is:\n{:}'.format(classification_report(y_test,y_pred)))
+USING RANDOM FOREST CLASSIFIER(ML)
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+
+#categorical variables
+cat = list(df.select_dtypes(include='O').keys())
+print(cat)
+
+
+
+for column in df.columns:
+    unique_values = df[column].unique()
+    print(f"Unique values in column {column}: {len(unique_values)}")
+from sklearn.preprocessing import LabelEncoder
+
+# Assuming your DataFrame is named 'df'
+encoded_df = df.copy()  # Create a copy of the original DataFrame
+
+categorical_columns = ['gender', 'ethnicity', 'jundice', 'austim', 'contry_of_res', 'used_app_before', 'age_desc', 'relation', 'Class/ASD']
+
+for column in categorical_columns:
+    label_encoder = LabelEncoder()
+    encoded_df[column] = label_encoder.fit_transform(encoded_df[column])
+
+
+
+df=encoded_df
+# value_counts of the categorical columns
+for i in cat:
+    print(df[i].value_counts())
+
+
+dataset=df.values
+x= dataset[:,0:20]
+y= dataset[:,20]
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_val_and_test, y_train, y_val_and_test = train_test_split(x_scale,y, test_size =0.3)
+x_val , x_test, y_val, y_test = train_test_split(x_val_and_test, y_val_and_test, test_size = 0.5)
+print(x_train.shape, x_val.shape, y_train .shape, y_val.shape, y_test.shape)
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
+
+# Check for NaN values in x_train
+nan_rows = np.isnan(x_train).any(axis=1)
+x_train_no_nan = x_train[~nan_rows]
+y_train_no_nan = y_train[~nan_rows]
+
+# Scale or normalize data
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train_no_nan)
+
+# Create and train the Random Forest Classifier
+rfc = RandomForestClassifier()
+rfc.fit(x_train_scaled, y_train_no_nan)
+from sklearn.metrics import confusion_matrix, classification_report, precision_score, recall_score
+
+print("The model used is Random Forest classifier")
+accuracy = metrics.accuracy_score(y_test, y_pred)
+print("\nAccuracy Of Random Forest Classifier For The Given Dataset: ", accuracy*100)
+print(confusion_matrix(y_test, y_pred))
+print('The classification report is:\n{:}'.format(classification_report(y_test, y_pred)))
+USING DECISION TREE CLASSIFIER(ML)
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+
+#categorical variables
+cat = list(df.select_dtypes(include='O').keys())
+print(cat)
+for column in df.columns:
+    unique_values = df[column].unique()
+    print(f"Unique values in column {column}: {len(unique_values)}")
+from sklearn.preprocessing import LabelEncoder
+
+# Assuming your DataFrame is named 'df'
+encoded_df = df.copy()  # Create a copy of the original DataFrame
+
+categorical_columns = ['gender', 'ethnicity', 'jundice', 'austim', 'contry_of_res', 'used_app_before', 'age_desc', 'relation', 'Class/ASD']
+
+for column in categorical_columns:
+    label_encoder = LabelEncoder()
+    encoded_df[column] = label_encoder.fit_transform(encoded_df[column])
+df=encoded_df
+# value_counts of the categorical columns
+for i in cat:
+    print(df[i].value_counts())
+
+
+dataset=df.values
+x= dataset[:,0:20]
+y= dataset[:,20]
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_val_and_test, y_train, y_val_and_test = train_test_split(x_scale,y, test_size =0.3)
+x_val , x_test, y_val, y_test = train_test_split(x_val_and_test, y_val_and_test, test_size = 0.5)
+print(x_train.shape, x_val.shape, y_train .shape, y_val.shape, y_test.shape)
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import StandardScaler
+
+# Check for NaN values in x_train
+nan_rows = np.isnan(x_train).any(axis=1)
+x_train_no_nan = x_train[~nan_rows]
+y_train_no_nan = y_train[~nan_rows]
+
+# Scale or normalize data
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train_no_nan)
+
+# Create and train the Decision Tree Classifier
+classifier = DecisionTreeClassifier(max_depth=4)
+classifier.fit(x_train_scaled, y_train_no_nan)
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+
+decision_tree_accuracy = accuracy_score(y_test, y_pred) * 100
+print("The Accuracy Score Using Algorithm Decision Tree Classifier:", decision_tree_accuracy)
+print(confusion_matrix(y_test, y_pred))
+print('The classification report is:\n{:}'.format(classification_report(y_test, y_pred)))
+#printing the confusion matrix
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+LABELS = ['autism', 'No autism']
+conf_matrix = confusion_matrix(y_test, y_pred)
+sns.heatmap(conf_matrix, xticklabels=LABELS, yticklabels=LABELS, annot=True, fmt="d");
+USING Random forest CLASSIFIER(ML)
+#Importing libraries and dataset
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/drive/MyDrive/autism_screeningg.csv')
+#numerical variables
+num = list(df.select_dtypes(include=['int64','float64']).keys())
+print (num)
+
+#categorical variables
+cat = list(df.select_dtypes(include='O').keys())
+print(cat)
+
+
+
+for column in df.columns:
+    unique_values = df[column].unique()
+    print(f"Unique values in column {column}: {len(unique_values)}")
+
+
+from sklearn.preprocessing import LabelEncoder
+
+# Assuming your DataFrame is named 'df'
+encoded_df = df.copy()  # Create a copy of the original DataFrame
+
+categorical_columns = ['gender', 'ethnicity', 'jundice', 'austim', 'contry_of_res', 'used_app_before', 'age_desc', 'relation', 'Class/ASD']
+
+for column in categorical_columns:
+    label_encoder = LabelEncoder()
+    encoded_df[column] = label_encoder.fit_transform(encoded_df[column])
+
+
+
+df=encoded_df
+# value_counts of the categorical columns
+for i in cat:
+    print(df[i].value_counts())
+
+
+dataset=df.values
+x= dataset[:,0:20]
+y= dataset[:,20]
+#processing of input data (0-1)
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scale = min_max_scaler.fit_transform(x)
+#training, validating and testing
+from sklearn.model_selection import train_test_split
+x_train, x_val_and_test, y_train, y_val_and_test = train_test_split(x_scale,y, test_size =0.3)
+x_val , x_test, y_val, y_test = train_test_split(x_val_and_test, y_val_and_test, test_size = 0.5)
+print(x_train.shape, x_val.shape, y_train .shape, y_val.shape, y_test.shape)
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import GridSearchCV
+
+# Check for NaN values in x_train
+nan_rows = np.isnan(x_train).any(axis=1)
+x_train_no_nan = x_train[~nan_rows]
+y_train_no_nan = y_train[~nan_rows]
+
+# Scale or normalize data
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train_no_nan)
+
+# Create and train the Decision Tree Classifier with hyperparameter tuning
+param_grid = {
+    'max_depth': [3, 4, 5],
+    'min_samples_split': [2, 3, 4],
+    'min_samples_leaf': [1, 2, 3],
+    'max_features': ['sqrt', 'log2']
+}
+grid_search = GridSearchCV(
+    DecisionTreeClassifier(),
+    param_grid=param_grid,
+    cv=5
+)
+grid_search.fit(x_train_scaled, y_train_no_nan)
+best_classifier = grid_search.best_estimator_
+
+# Print the best hyperparameters
+print("Best Hyperparameters:")
+print(grid_search.best_params_)
+
+# Evaluate the best classifier on test data
+x_test_scaled = scaler.transform(x_test)
+y_pred = best_classifier.predict(x_test_scaled)
+from sklearn.metrics import confusion_matrix, classification_report, precision_score, recall_score
+
+print("The model used is Random Forest classifier")
+accuracy = metrics.accuracy_score(y_test, y_pred)
+print("\nAccuracy Of Random Forest Classifier For The Given Dataset: ", accuracy*100)
+print(confusion_matrix(y_test, y_pred))
+print('The classification report is:\n{:}'.format(classification_report(y_test, y_pred)))
+#printing the confusion matrix
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+LABELS = ['autism', 'No autism']
+conf_matrix = confusion_matrix(y_test, y_pred)
+sns.heatmap(conf_matrix, xticklabels=LABELS, yticklabels=LABELS, annot=True, fmt="d");
+
+
